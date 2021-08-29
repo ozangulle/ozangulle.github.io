@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Ozan Gulle</title>
+    <link>https://ozangulle.github.io/post/</link>
+    <description>Recent content in Posts on Ozan Gulle</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sun, 29 Aug 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://ozangulle.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ESP8266 with Temperature Sensor</title>
+      <link>https://ozangulle.github.io/post/esp8266-single-sensor/</link>
+      <pubDate>Sun, 29 Aug 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://ozangulle.github.io/post/esp8266-single-sensor/</guid>
+      <description>I bought my first Arduino board a couple of years ago. It didn&amp;rsquo;t take long before I wanted to have some kind of network capability for my board so I bought some ESP8266 01 WiFi modules afterwards. Then I learned that ESP8266s are actually powerful enough to run simple codes. I have an obsession with overhead in my personal projects so I realized that I did not need the Arduino anymore and could ditch it.</description>
+    </item>
+    
+    <item>
+      <title>Cleanup</title>
+      <link>https://ozangulle.github.io/post/cleanup/</link>
+      <pubDate>Fri, 06 Nov 2020 23:51:11 +0100</pubDate>
+      
+      <guid>https://ozangulle.github.io/post/cleanup/</guid>
+      <description>It was about time.
+ I created this website back in 2017 when I was fresh out of university. I published a few posts, but most of them were too academical, badly written, and not very interesting to be honest.
+ I decided that it was time for a clean-up. I don&amp;#39;t know whether I will ever publish anything here.</description>
+    </item>
+    
+  </channel>
+</rss>

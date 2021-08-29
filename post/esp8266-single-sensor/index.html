@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.87.0" />
+
+  <title>ESP8266 with Temperature Sensor &middot; Ozan Gulle</title>
+
+    
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://ozangulle.github.io/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://ozangulle.github.io/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="https://ozangulle.github.io/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.9.0/css/all.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+ 
+  
+
+  
+
+  <link rel="shortcut icon" href="https://ozangulle.github.io/img/favicon.ico" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="https://ozangulle.github.io/">Menu</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://ozangulle.github.io/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://ozangulle.github.io/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://ozangulle.github.io/projects/"><i class='fa fa-pencil-alt fa-fw'></i>Projects</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="https://ozangulle.github.io/posts/"><i class='fa fa-list fa-fw'></i>Posts</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://xing.com/profile/Ozan_Gulle" target="_blank"><i class="fab fa-xing fa-fw"></i>Xing</a>
+    </li>
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/ozangulle" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+    </li>
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small></small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+<div class="header">
+  <h1>ESP8266 with Temperature Sensor</h1>
+  <h2></h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>29 Aug 2021</time>
+    by <strong>Ozan Gulle</strong>
+  </div>
+
+  
+
+  
+
+  
+
+</div>
+
+  <hr>
+<p>I bought my first Arduino board a couple of years ago. It didn&rsquo;t take long before I wanted to have some kind of network capability for my board so I bought some ESP8266 01 WiFi modules afterwards. Then I learned that ESP8266s are actually powerful enough to run simple codes. I have an obsession with overhead in my personal projects so I realized that I did not need the Arduino anymore and could ditch it.</p>
+<p>One of the things I really wanted to make was a small enough board with sensors for temperature, humidity, and CO2 on it which can send data over WiFi. The idea is to build several of these and put them in each room.</p>
+<p>The boards need to be:</p>
+<ol>
+<li>
+<p>Small - low profile: I don&rsquo;t want to have an eyesore in every room.</p>
+</li>
+<li>
+<p>Low power: Under 1W on average at the very least, since I want to have a bunch on them.</p>
+</li>
+<li>
+<p>Powered over sockets: I don&rsquo;t want to change batteries.</p>
+</li>
+</ol>
+<p>After delaying this idea for years, I finally got to finishing it and I want to write about the problems that I had and mistakes I made along the way. Hopefully, it will help someone who wants to make something similar.</p>
+<h2 id="hardware">Hardware</h2>
+<p>The parts I used are:</p>
+<ul>
+<li>
+<p>1x DHT22 temperature and humidity sensor</p>
+</li>
+<li>
+<p>1x ESP8266-01 WiFi module</p>
+</li>
+<li>
+<p>1x Breakout adapter for ESP8266</p>
+</li>
+<li>
+<p>1x Micro USB to DIP adapter</p>
+</li>
+<li>
+<p>1x 5V to 3.3V voltage regulator (ESP8266 cannot handle 5V)</p>
+</li>
+<li>
+<p>1x 10kΩ resistor (for pulling up GPIO0 on ESP8266)</p>
+</li>
+</ul>
+<p>The most important part of the board is the breakout adapter for ESP8266. It makes the ESP modules pluggable, thus re-programmable if need be, e.g. if you want to change the id of the board or the update interval. I also considered having an adapter for the DHT22 but dropped the idea because I don&rsquo;t think (or I hope) that I will be replacing it with another sensor.</p>
+<p>Initially, I wired everything on a breadboard. I was thinking about adding a CO2 sensor later but I left it out. Maybe I&rsquo;ll add one for the next board I build.</p>
+<h2 id="schematics">Schematics</h2>
+<p>The circuit is very simple. I actually created the schematics below just for this post. The power comes from a 240V to 5V USB adapter which I bought. The 5V source is the adapter piece for the board. KiCad did not have DHT22 so I used DHT11 instead in the schematics. It makes no practical difference in the circuit though. DHT22 is just a more precise/sensitive version of DHT11.</p>
+<figure><img src="https://ozangulle.github.io/ox-hugo/esp8266-single-sensor.png" width="100%"/>
+</figure>
+
+<p>The most important part is the pull-up resistor for the GPIO0 pin on ESP8266. The module has a problem starting up properly if this pin is not set to high on startup.</p>
+<h2 id="code">Code</h2>
+<p>The code itself is trivial. There are libraries for controlling ESP8266, DHT22, for handling the UDP request etc.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;ESP8266WiFi.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;WiFiUdp.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;DHT_U.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;DHT.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">#define DHTPIN 0
+</span><span style="color:#75715e">#define DHTTYPE DHT22
+</span><span style="color:#75715e"></span>DHT <span style="color:#a6e22e">dht</span>(DHTPIN, DHTTYPE);
+
+WiFiClient client;
+WiFiUDP udp;
+<span style="color:#66d9ef">char</span><span style="color:#f92672">*</span> server <span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&lt;ip or domain of the server&gt;&#34;</span>;
+String id <span style="color:#f92672">=</span> String(<span style="color:#e6db74">&#34;&lt;any id you want to assign to this hardware&gt;&#34;</span>);
+<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span> port <span style="color:#f92672">=</span> <span style="color:#ae81ff">8094</span>;
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setup</span>() {
+  Serial.begin(<span style="color:#ae81ff">9600</span>);
+  Serial.println(<span style="color:#e6db74">&#34;Ready&#34;</span>);
+  Serial.println(<span style="color:#e6db74">&#34;Connecting to WiFi&#34;</span>);
+  WiFi.mode(WIFI_STA);
+  WiFi.begin(<span style="color:#e6db74">&#34;&lt;your-wifi-name&gt;&#34;</span>, <span style="color:#e6db74">&#34;&lt;your-wifi-password&gt;&#34;</span>);
+  <span style="color:#66d9ef">while</span> (WiFi.status() <span style="color:#f92672">!=</span> WL_CONNECTED) {
+    delay(<span style="color:#ae81ff">5000</span>);
+    Serial.println(<span style="color:#e6db74">&#34;Waiting&#34;</span>);
+  }
+  dht.begin();
+  Serial.println(<span style="color:#e6db74">&#34;Connected to WiFi&#34;</span>);
+}
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">loop</span>() {
+  <span style="color:#66d9ef">float</span> h <span style="color:#f92672">=</span> dht.readHumidity();
+  <span style="color:#66d9ef">float</span> t <span style="color:#f92672">=</span> dht.readTemperature();
+  String humPacket <span style="color:#f92672">=</span> String(<span style="color:#e6db74">&#34;hum,id=&#34;</span> <span style="color:#f92672">+</span> id <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; value=&#34;</span> <span style="color:#f92672">+</span> h);
+  String tempPacket <span style="color:#f92672">=</span> String(<span style="color:#e6db74">&#34;temp,id=&#34;</span> <span style="color:#f92672">+</span> id <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; value=&#34;</span> <span style="color:#f92672">+</span> t);
+  Serial.println(humPacket);
+  Serial.println(tempPacket);
+  udp.beginPacket(server, port);
+  udp.write(humPacket.c_str());x
+  udp.endPacket();
+  udp.beginPacket(server, port);
+  udp.write(tempPacket.c_str());
+  udp.endPacket();
+  delay(<span style="color:#ae81ff">60000</span>);
+}
+</code></pre></div><p>The real important part is the id. That&rsquo;s how you identify the sensor once it starts sending data. The data sent to the server is formatted in <a href="https://docs.influxdata.com/influxdb/v1.8/write%5Fprotocols/line%5Fprotocol%5Ftutorial/">InfluxDB line protocol</a>.</p>
+<h2 id="architecture">Architecture</h2>
+<p>The way I set it up requires two machines. One is the board with the sensor itself, the other one is some kind of server. I use make Raspberry Pi 3 for this. I installed InfluxDB and Telegraf on the server. Telegraf listens to udp packets on port 8094, parses the data that comes in a writes it to InfluxDB. I&rsquo;m currently using Grafana to display the data in a human-friendly way.</p>
+<figure><img src="https://ozangulle.github.io/ox-hugo/architecture.png"/>
+</figure>
+
+<p>Currently, the retention policy of InfluxDB is set to 2 days. This limits the amount of storage the data uses and hopefully helps mitigate the dreaded damage on the SD card due to excessive read/write operations.</p>
+<h2 id="problems-with-the-breadboard">Problems with the Breadboard</h2>
+<p>There was a significant problem with the breadboard setup. I was having problems delivering a steady 3.3V to ESP8266. As a result, I either had to connect/disconnect the plug several times until the module was working properly. Even in these cases, moving the setup could cause the loss of functionality, and often it simply stopped working after 5-6 hours. After testing and changing several jumper cables, I finally had a board that worked most of the time. It was, however, still not 100% stable and reliable. I tried using pull-up resistors for the pins RX, GPIO0, GPIO2, RST, and CH_PD. I was worried that there was something with the way I wired the setup.</p>
+<h2 id="soldering">Soldering</h2>
+<p>It turns out that my problems were cased entirely by the breadboard. Ever since I soldered it together, everything works continously the first time I plug it in. I only used a pull-up resistor for the GPIO0 pin, since it is connected to the sensor and I had problems getting clean values out of it in the past (DHT22 apparently has a pull-up resistor built-in, but it doesn&rsquo;t seem to hurt to have another one).</p>
+<figure><img src="https://ozangulle.github.io/ox-hugo/esp8266-single-sensor-front.jpg"
+         alt="Figure 1: Front side which looks fairly clean" width="100%"/><figcaption>
+            <p>Figure 1: Front side which looks fairly clean</p>
+        </figcaption>
+</figure>
+
+<p>Soldering the wires was somewhat difficult. I already killed another board by trying to bridge the gaps with solder so this time I used wires. Also, I found out the hard way how difficult desoldering is so this time I tried using as little solder as possible for the job. This immediately paid out when I realized that I had wired the sensor the wrong way. Thankfully, it only took a few minutes to fix the mistake.</p>
+<figure><img src="https://ozangulle.github.io/ox-hugo/esp8266-single-sensor-back.jpg"
+         alt="Figure 2: The back side looks quite sloppy. Also I messed up black/red wires from USB adaptor to voltage regulator." width="100%"/><figcaption>
+            <p>Figure 2: The back side looks quite sloppy. Also I messed up black/red wires from USB adaptor to voltage regulator.</p>
+        </figcaption>
+</figure>
+
+<p>There is a little bit of dried flux on the board. I will try removing it with alchohol.</p>
+<h2 id="result">Result</h2>
+<p>The board is working quite well despite of my shoddy soldering job. It uses on average 0.4W of power which is well within my parameters. What it is missing right now is an aesthetically acceptable case. I have been using this board for over a week now and I have not experience any problems with it.</p>
+<h2 id="mistakes">Mistakes</h2>
+<p>My biggest mistake was to use micro USB for powering the board instead of USB-C. The way micro USB cables are attached, they tend to get stuck on the adapter and damage it while trying to remove. I already ruined two USB adapters because of this.</p>
+
+  
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="https://ozangulle.github.io/post/cleanup/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="https://ozangulle.github.io/post/cleanup/">Cleanup</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+</div>
+
+</div>
+</div>
+<script src="https://ozangulle.github.io/js/ui.js"></script>
+<script src="https://ozangulle.github.io/js/menus.js"></script>
+<style>
+.figure-number {
+    display: none;
+}
+</style>
+</body>
+</html>
+
