@@ -23,13 +23,13 @@
   <!--<![endif]-->
 
   <!--[if lte IE 8]>
-  <link rel="stylesheet" href="https://ozangulle.github.io/css/side-menu-old-ie.css">
+  <link rel="stylesheet" href="https://ozangulle.xyz/css/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
-  <link rel="stylesheet" href="https://ozangulle.github.io/css/side-menu.css">
+  <link rel="stylesheet" href="https://ozangulle.xyz/css/side-menu.css">
   <!--<![endif]-->
 
-  <link rel="stylesheet" href="https://ozangulle.github.io/css/blackburn.css">
+  <link rel="stylesheet" href="https://ozangulle.xyz/css/blackburn.css">
 
   
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.9.0/css/all.css">
@@ -42,7 +42,7 @@
 
   
 
-  <link rel="shortcut icon" href="https://ozangulle.github.io/img/favicon.ico" type="image/x-icon" />
+  <link rel="shortcut icon" href="https://ozangulle.xyz/img/favicon.ico" type="image/x-icon" />
 
   
   
@@ -61,7 +61,7 @@
 <div id="menu">
 
   
-  <a class="pure-menu-heading brand" href="https://ozangulle.github.io/">Menu</a>
+  <a class="pure-menu-heading brand" href="https://ozangulle.xyz/">Menu</a>
 
 
   <div class="pure-menu">
@@ -69,25 +69,25 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="https://ozangulle.github.io/"><i class='fa fa-home fa-fw'></i>Home</a>
+          <a class="pure-menu-link" href="https://ozangulle.xyz/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="https://ozangulle.github.io/about/"><i class='fa fa-user fa-fw'></i>About</a>
+          <a class="pure-menu-link" href="https://ozangulle.xyz/about/"><i class='fa fa-user fa-fw'></i>About</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="https://ozangulle.github.io/projects/"><i class='fa fa-pencil-alt fa-fw'></i>Projects</a>
+          <a class="pure-menu-link" href="https://ozangulle.xyz/projects/"><i class='fa fa-pencil-alt fa-fw'></i>Projects</a>
       
         </li>
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="https://ozangulle.github.io/posts/"><i class='fa fa-list fa-fw'></i>Posts</a>
+          <a class="pure-menu-link" href="https://ozangulle.xyz/posts/"><i class='fa fa-list fa-fw'></i>Posts</a>
       
         </li>
       
@@ -195,7 +195,7 @@
 <p>Initially, I wired everything on a breadboard. I was thinking about adding a CO2 sensor later but I left it out. Maybe I&rsquo;ll add one for the next board I build.</p>
 <h2 id="schematics">Schematics</h2>
 <p>The circuit is very simple. I actually created the schematics below just for this post. The power comes from a 240V to 5V USB adapter which I bought. The 5V source is the adapter piece for the board. KiCad did not have DHT22 so I used DHT11 instead in the schematics. It makes no practical difference in the circuit though. DHT22 is just a more precise/sensitive version of DHT11.</p>
-<figure><img src="https://ozangulle.github.io/ox-hugo/esp8266-single-sensor.png" width="100%"/>
+<figure><img src="https://ozangulle.xyz/ox-hugo/esp8266-single-sensor.png" width="100%"/>
 </figure>
 
 <p>The most important part is the pull-up resistor for the GPIO0 pin on ESP8266. The module has a problem starting up properly if this pin is not set to high on startup.</p>
@@ -249,7 +249,7 @@ String id <span style="color:#f92672">=</span> String(<span style="color:#e6db74
 </code></pre></div><p>The real important part is the id. That&rsquo;s how you identify the sensor once it starts sending data. The data sent to the server is formatted in <a href="https://docs.influxdata.com/influxdb/v1.8/write%5Fprotocols/line%5Fprotocol%5Ftutorial/">InfluxDB line protocol</a>.</p>
 <h2 id="architecture">Architecture</h2>
 <p>The way I set it up requires two machines. One is the board with the sensor itself, the other one is some kind of server. I use make Raspberry Pi 3 for this. I installed InfluxDB and Telegraf on the server. Telegraf listens to udp packets on port 8094, parses the data that comes in a writes it to InfluxDB. I&rsquo;m currently using Grafana to display the data in a human-friendly way.</p>
-<figure><img src="https://ozangulle.github.io/ox-hugo/architecture.png"/>
+<figure><img src="https://ozangulle.xyz/ox-hugo/architecture.png"/>
 </figure>
 
 <p>Currently, the retention policy of InfluxDB is set to 2 days. This limits the amount of storage the data uses and hopefully helps mitigate the dreaded damage on the SD card due to excessive read/write operations.</p>
@@ -257,14 +257,14 @@ String id <span style="color:#f92672">=</span> String(<span style="color:#e6db74
 <p>There was a significant problem with the breadboard setup. I was having problems delivering a steady 3.3V to ESP8266. As a result, I either had to connect/disconnect the plug several times until the module was working properly. Even in these cases, moving the setup could cause the loss of functionality, and often it simply stopped working after 5-6 hours. After testing and changing several jumper cables, I finally had a board that worked most of the time. It was, however, still not 100% stable and reliable. I tried using pull-up resistors for the pins RX, GPIO0, GPIO2, RST, and CH_PD. I was worried that there was something with the way I wired the setup.</p>
 <h2 id="soldering">Soldering</h2>
 <p>It turns out that my problems were cased entirely by the breadboard. Ever since I soldered it together, everything works continously the first time I plug it in. I only used a pull-up resistor for the GPIO0 pin, since it is connected to the sensor and I had problems getting clean values out of it in the past (DHT22 apparently has a pull-up resistor built-in, but it doesn&rsquo;t seem to hurt to have another one).</p>
-<figure><img src="https://ozangulle.github.io/ox-hugo/esp8266-single-sensor-front.jpg"
+<figure><img src="https://ozangulle.xyz/ox-hugo/esp8266-single-sensor-front.jpg"
          alt="Figure 1: Front side which looks fairly clean" width="100%"/><figcaption>
             <p>Figure 1: Front side which looks fairly clean</p>
         </figcaption>
 </figure>
 
 <p>Soldering the wires was somewhat difficult. I already killed another board by trying to bridge the gaps with solder so this time I used wires. Also, I found out the hard way how difficult desoldering is so this time I tried using as little solder as possible for the job. This immediately paid out when I realized that I had wired the sensor the wrong way. Thankfully, it only took a few minutes to fix the mistake.</p>
-<figure><img src="https://ozangulle.github.io/ox-hugo/esp8266-single-sensor-back.jpg"
+<figure><img src="https://ozangulle.xyz/ox-hugo/esp8266-single-sensor-back.jpg"
          alt="Figure 2: The back side looks quite sloppy. Also I messed up black/red wires from USB adaptor to voltage regulator." width="100%"/><figcaption>
             <p>Figure 2: The back side looks quite sloppy. Also I messed up black/red wires from USB adaptor to voltage regulator.</p>
         </figcaption>
@@ -281,13 +281,13 @@ String id <span style="color:#f92672">=</span> String(<span style="color:#e6db74
 <div class="prev-next-post pure-g">
   <div class="pure-u-1-24" style="text-align: left;">
     
-    <a href="https://ozangulle.github.io/post/cleanup/"><i class="fa fa-chevron-left"></i></a>
+    <a href="https://ozangulle.xyz/post/cleanup/"><i class="fa fa-chevron-left"></i></a>
     
   </div>
   <div class="pure-u-10-24">
     
     <nav class="prev">
-      <a href="https://ozangulle.github.io/post/cleanup/">Cleanup</a>
+      <a href="https://ozangulle.xyz/post/cleanup/">Cleanup</a>
     </nav>
     
   </div>
@@ -308,8 +308,8 @@ String id <span style="color:#f92672">=</span> String(<span style="color:#e6db74
 
 </div>
 </div>
-<script src="https://ozangulle.github.io/js/ui.js"></script>
-<script src="https://ozangulle.github.io/js/menus.js"></script>
+<script src="https://ozangulle.xyz/js/ui.js"></script>
+<script src="https://ozangulle.xyz/js/menus.js"></script>
 <style>
 .figure-number {
     display: none;
