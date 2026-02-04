@@ -1,0 +1,18 @@
+---
+title: "About"
+date: 2026-02-04T20:35:45+01:00
+draft: false
+---
+
+                
+** What do I do?
+
+I like making and repairing things. I mostly make software, bread, and bad jokes. During the day, I work on enterprise software. On my free time, I mostly work on software to make my daily workflows easier.
+
+** Contact
+
+ozan @ ozangulle.xyz
+
+[[/public_key.gpg][GPG Key]]
+Fingerprint: 802E 4DC1 ACA0 3CBB 49AF  97DC A773 B8DE 62D2 343D</p>
+

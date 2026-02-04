@@ -1,0 +1,23 @@
+---
+title: "Projects"
+date: 2026-02-04T20:48:53+01:00
+draft: false
+---
+
+A List of My Projects
+
+** Plauna
+
+A privacy respecting e-mail organizer for self hosters.
+
+[[https://github.com/ozangulle/plauna][Github]]
+
+[[https://hub.docker.com/r/ozangulle/plauna][Docker Hub]]
+
+** vue-dispatched-scrollbar (archived)
+
+My first open source project. A library for Vue.js, it allow you to detach the scrollbar from the element you want scrolling to occur.
+
+[[https://github.com/ozangulle/vue-detached-scrollbar][Github]]
+
+[[https://www.npmjs.com/package/vue-detached-scrollbar][npm]]

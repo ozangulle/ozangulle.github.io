@@ -1,0 +1,11 @@
+---
+title: "Cleanup"
+date: 2020-11-06T20:00:00+01:00
+draft: false
+---
+
+It was about time.
+
+I created this website back in 2017 when I was fresh out of university. I published a few posts, but most of them were too academical, badly written, and not very interesting to be honest.
+
+I decided that it was time for a clean-up. I don't know whether I will ever publish anything here.
