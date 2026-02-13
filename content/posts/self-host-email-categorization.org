@@ -1,0 +1,19 @@
+---
+title: "Self Hosting Email Categorization"
+date: 2026-02-06T20:49:10+01:00
+draft: false
+---
+
+The General Data Protection Regulation (GDPR) granted internet users in the EU unprecedented (and in my opinion up until that point unimaginable) rights. Users can now go to any online service they use and say "tell me everything you know about me" and "delete everything you know about me". It was also quite unusual for online services to ask their users whether they consent the use of their data in specific contexts. I know all this firsthand because I was working in software development back then in an EU country. I remember how much work it was to implement these legal requirements. I distinctly remember that prior to GDPR, there was no concept of "deleting data". The web frameworks we used at that time marked rows as deleted but did not actually delete the data from the database. There was a consensus in the IT community that data was the new gold, storage was cheap, and you simply did not delete anything.
+
+After the introduction of GDPR, I requested my data from several services and deleted my accounts, specifically asking them to also delete all my data. It was also around this time that I became interested in buying my own domain name and moving away from my email provider, Gmail. Consequently, I downloaded my entire email archive from Gmail in preparation. I began using Gmail back when it was an invitation-only service. Because it also came with a very generous (this was huge back then) storage amount, I had never deleted any emails. So, I ended up with the entire email archive of my adult life on my local disk.
+
+I started to wonder what I could learn from this new-found data. I generated different statistical views using my email data. It was then that I realized Gmail had a feature that I am really missing elsewhere: automatic email categorization. This is a very useful feature, especially because a lot services send emails for all their notifications. Order something online? That's at least 3 emails. Log in to your account from another device? 2 email at the minimum. During this time I also became very conscious of how much personal information I was sharing with online services and started self hosting various services on my own machines. I decided that I wanted to have an automatic email organization service that is:
+
+1. self-hosted: I don't want to share my private data with anyone else,
+
+2. flexible: I want to be able to create as many categories for my emails as possible,
+
+3. multilingual: I converse in multiple languages and I want my service to be able to deal with this,
+
+Unable to find a service that met all these requirements, I decided to develop my own. [[https://github.com/ozangulle/plauna][Plauna]] respects your privacy, the code is free and open source, and you own all your data. This project serves both as my way of giving back to the free software community, from which I have benefited greatly, and as a personal solution to my own needs. Currently, it is a working prototype where the core functionality works. I am regularly working on it and even receive bug reports on Github from time to time. I assume that this means other people are using it, too. Plauna has no telemetry and no way of "phoning home". There is also no "home" for it to phone to. I don't know how many people actually use it, but I appreciate the thought of someone else out there benefiting from Plauna and enjoying it like I do.

@@ -7,7 +7,7 @@ draft: false
                 
 ** What do I do?
 
-I like making and repairing things. I mostly make software, bread, and bad jokes. During the day, I work on enterprise software. On my free time, I mostly work on software to make my daily workflows easier.
+I like writing and self-hosting software. During the day, I work on enterprise software. On some of my free time, I develop [[https://github.com/ozangulle/plauna][Plauna]]. 
 
 ** Contact
 
