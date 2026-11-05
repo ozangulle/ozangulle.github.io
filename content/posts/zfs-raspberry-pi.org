@@ -1,0 +1,101 @@
+---
+title: "Zfs Raspberry Pi"
+date: 2026-11-05T21:19:00+01:00
+draft: false
+---
+
+Recently, I had the urge to try FreeBSD on a Raspberry Pi 5. I wanted to test it with the full power of FreeBSD, which obviously includes the built-in zfs support. Unfortunately, the SD card images provided by FreeBSD use the ufs filesystem. I wanted to have zfs as my root filesystem. Luckily, other people had this urge before me and they had already come up with solutions. As far as I can see, the original credit goes to the Reddit user u/jvwatzman in his [[https://www.reddit.com/r/freebsd/comments/v4b5oj/freebsd_on_zfs_on_raspberry_pi/][original Reddit post]] (Which itself is based on another comment). The same method was changed slightly to be used on an external SSD in [[https://www.axcella.com/blog/2024/02/03/installing-freebsd-14-on-raspberry-pi-4b-with-zfs-root/][another blog post]]. Because Reddit posts sometimes have the tendency to disapear, I want to briefly archive it and explain how the process works. The credits go to the original authors linked above.
+
+Here are the steps:
+
+1. Download the official Raspberry Pi image for FreeBSD from their website. The current release is 15.1, and Raspberry Pi image can be found [[https://download.freebsd.org/releases/arm64/aarch64/ISO-IMAGES/15.1/FreeBSD-15.1-RELEASE-arm64-aarch64-RPI.img.xz][here]]. It's compressed so you need to unxz it.
+
+2. Flash the image to the SD card and resize the partitions. The Reddit post has a useful script for this (the original script was slightly altered by me).
+
+   #+begin_src bash
+   #!/bin/sh
+
+   set -e
+   set -x
+
+   dd if=FreeBSD-15.1-RELEASE-arm64-aarch64-RPI.img of=/dev/dX1 bs=4M iflag=direct oflag=direct status=progress
+   gpart resize -i 2 dX1
+   gpart resize -i 1 dX1s2
+   #+end_src
+
+   You need to replace dX1 with the actual device name on your machine.
+
+3. Attach the Raspberry Pi image you downloaded from the FreeBSD website as a memory disk and mount it
+
+   #+begin_src bash
+     mdconfig -a -t vnode -f FreeBSD-15.1-RELEASE-arm64-aarch64-RPI.img -u 0
+
+     mount /dev/md0s2a /mnt
+#+end_src
+
+This is required for the next step.
+
+4. Run the following script which does the following:
+
+   a. Checks whether you actually mounted the image locally in step 3.
+   b. Creates a new zpool in the partition on the SD card where the ufs filesystem was located
+   c. Copies all the files from the mounted image to the SD card
+   d. Enables ZFS in /etc/rc.conf
+
+   Replace dx1s1 with the actual device name. The original Raspberry Pi image has two partitions. The first one dX1 is the boot partition and the rest of the system is on dX1s2.
+
+   #+begin_src bash
+     #!/bin/sh
+
+     if [ ! -f /mnt/COPYRIGHT ]
+     then
+         echo "Forgot to mount disk image"
+         exit 1
+     fi
+
+     set -e
+     set -x
+
+     zpool destroy zpi || true
+     zpool create -O compress=lz4 -O atime=off -o altroot=/zpialt -m none zpi dX1s2
+
+     zfs create -o mountpoint=none zpi/ROOT
+     zfs create -o mountpoint=/ zpi/ROOT/default
+     zfs create -o mountpoint=/tmp -o exec=on -o setuid=off zpi/tmp
+     zfs create -o mountpoint=/usr -o canmount=off zpi/usr
+     zfs create zpi/usr/home
+     zfs create -o setuid=off zpi/usr/ports
+     zfs create zpi/usr/src
+     zfs create -o mountpoint=/var -o canmount=off zpi/var
+     zfs create -o exec=off -o setuid=off zpi/var/audit
+     zfs create -o exec=off -o setuid=off zpi/var/crash
+     zfs create -o exec=off -o setuid=off zpi/var/log
+     zfs create -o atime=on zpi/var/mail
+     zfs create -o setuid=off zpi/var/tmp
+
+     zfs set mountpoint=/zpi zpi
+
+     chmod 1777 /zpialt/tmp
+     chmod 1777 /zpialt/var/tmp
+
+     zpool set bootfs=zpi/ROOT/default zpi
+
+     zfs set canmount=noauto zpi/ROOT/default
+
+     cd /mnt
+     tar cf - . | ( cd /zpialt && tar xvf - )
+
+     echo 'zfs_load="YES"' >> /zpialt/boot/loader.conf
+     echo 'kern.geom.label.disk_ident.enable=0' >> /zpialt/boot/loader.conf
+     sed -i '' '/boot_serial/ s/^/#/' /zpialt/boot/loader.conf
+     sed -i '' '/beastie_disable/ s/^/#/' /zpialt/boot/loader.conf
+
+     echo 'zfs_enable="YES"' >> /zpialt/etc/rc.conf
+
+     sed -i '' /ufs/d /zpialt/etc/fstab
+
+     zpool export zpi
+
+#+end_src
+
+After these steps, you end up with a Raspberry Pi that runs ZFS on its root partition, where you can experiment however you like. I tried setting up jails for various applications and it worked quite well. Bhyve seems to be incompatible with the arm64 architecture, though, so I couldn't run any virtual machines on it.

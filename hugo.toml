@@ -20,3 +20,5 @@ theme = "PaperMod"
   email = "ozan@ozangulle.xyz"
 [security]
   allowContent = ['! ^text/html$']
+[params]
+  defaultTheme = 'dark'
